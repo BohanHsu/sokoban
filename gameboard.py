@@ -57,7 +57,7 @@ class GameBoard:
             return (np in self.obstacles or sp in self.obstacles) and (ep in self.obstacles or wp in self.obstacles)
 
         for p in self.playArea:
-            if isDeadPosition(p):
+            if isDeadPosition(p) and not p in self.goals:
                 self.deadPositions.add(p)
 
         def handleTrap(p1, p2):
@@ -70,8 +70,8 @@ class GameBoard:
 
             if len([p for p in positions if not p in self.playArea]) > 0:
                 return None
-            trap = Trap(positions)
-            trap.capacity = len([p for p in positions if p in self.goals])
+            trap = Trap(positions, self)
+            #trap.capacity = len([p for p in positions if p in self.goals])
             return trap
 
         for wall in walls:
@@ -196,9 +196,23 @@ class Wall:
             return "vertical: " + str(self.northPoint) + '--' + str(self.southPoint)
 
 class Trap:
-    def __init__(self, positions):
+    def __init__(self, positions, gameboard):
         self.positions = set(positions)
-        self.capacity = None
+        self.gameboard = gameboard
+    
+    def capacity(self):
+        count = 0
+        for goal in self.gameboard.goals:
+            if goal in self.positions:
+                count += 1
+
+        for box in self.gameboard.boxes:
+            if box in self.positions:
+                count -= 1
+
+        if count < 0:
+            return 0
+        return count
 
 def move(direction):
     def getNorthPosition(position):

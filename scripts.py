@@ -23,20 +23,10 @@ def wallsToPoints(walls):
             for y in range(wall.northPoint[1], wall.southPoint[1] + 1):
                 matrix[y][x] = '#'
 
-    #lines = ["".join(line) for line in matrix]
-    #return lines
     return matrix
 
-
 map = mapToBoard('./test_map1.map')
-#print map.obstacles
-#print map.boxes
-#print map.goals
-#print map.robot
-
-#for w in map.walls:
-#    print w
-
+#map.boxes.add((1, 9))
 
 matrix = wallsToPoints(map.walls)
 
@@ -54,8 +44,12 @@ for line in lines:
 
 for trap in map.traps:
     for p in trap.positions:
-        matrix[p[1]][p[0]] = str(trap.capacity)
+        matrix[p[1]][p[0]] = str(trap.capacity())
 
+print ''
+lines = ["".join(line) for line in matrix]
+for line in lines:
+    print line
 
 for p in map.deadPositions:
     matrix[p[1]][p[0]] = 'D'
