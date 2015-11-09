@@ -1,5 +1,8 @@
+from copy import deepcopy
+
 class GameBoard:
     def __init__(self, obstacles, boxes, goals, robot):
+        #raise Exception('This class is not longer in user, please use newgameboard')
         self.obstacles = obstacles
         self.boxes = boxes
         self.goals = goals
@@ -10,7 +13,37 @@ class GameBoard:
         self.playArea = None
         self.findTraps(self.walls, self.obstacles)
 
+    def couldMove(self, directon):
+        """
+            check if a direcrtion of move to the robot is valid
+        """
+        newPosition = move(direction)(self.robot)
+        if newPosition in self.obstacles:
+            return None
+
+        result = {'oldRobot': self.robot, 'newRobot': newPosition}
+        if newPosition in self.boxes:
+            boxNewPosition = move(direction)(newPosition)
+            if boxNewPosition in self.boxes or boxNewPosition in self.obstacles:
+                return None
+            else:
+                result['oldBox'] = newPosition
+                result['newBox'] = boxNewPosition
+
+        return result
+    
+    def move(direction):
+        raise Exception('not be able to implement right now')
+        couldMove = self.couldMove(direction)
+        if couldMove is None:
+            return None
+        else:
+            newGameBoard = GameBoard()
+
     def findTraps(self, walls, obstacles):
+        """
+            find all traps in the map
+        """
         boundaryX = 0
         boundaryY = 0
         for obstacle in obstacles:
@@ -54,7 +87,7 @@ class GameBoard:
             sp = move('s')(point)
             ep = move('e')(point)
             wp = move('w')(point)
-            return (np in self.obstacles or sp in self.obstacles) and (ep in self.obstacles or wp in self.obstacles)
+            return (np in self.obstacles or sp in self.obstacles) and (ep in self.obstacles or wp in self.obstacles) and not point in self.goals
 
         for p in self.playArea:
             if isDeadPosition(p) and not p in self.goals:
@@ -102,6 +135,9 @@ class GameBoard:
                         self.traps.add(trap)
 
     def findWalls(self):
+        """
+            convert onstacles to walls
+        """
         def isIntersection(obstacle):
             np = (obstacle[0], obstacle[1] - 1)
             sp = (obstacle[0], obstacle[1] + 1)
@@ -139,7 +175,6 @@ class GameBoard:
         stack.append((northwallEastObstacle, south_p, 's'))
         west_p = move('w')(northwallEastObstacle)
         stack.append((northwallEastObstacle, west_p, 'w'))
-        #visitedObstacles.add(northwallEastObstacle)
 
         while len(stack) != 0:
             vector = stack.pop()
@@ -252,6 +287,6 @@ def mapToBoard(path):
             elif char == 'g':
                 goals.add((xi, yi))
             elif char == 'r':
-                robot = (xi, y1)
+                robot = (xi, yi)
 
     return GameBoard(obstacles, boxes, goals, robot)
