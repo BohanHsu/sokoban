@@ -8,11 +8,13 @@ class Solver:
         """
             naive bfs
         """
+        count = 0
         queue = deque([self.gameBoard])
         parents = {self.gameBoard: None}
 
         while len(parents) != 0:
             gb = queue.popleft()
+            count += 1
             if gb.isWin():
                 path = []
                 boards = []
@@ -23,7 +25,7 @@ class Solver:
                     curGb = parents[curGb].parent
 
                 boards.insert(0, curGb)
-                return {'path': path, 'boards': boards}
+                return {'path': path, 'boards': boards, 'count': count}
 
             if gb.isGameOver():
                 continue
@@ -38,11 +40,13 @@ class Solver:
         """
             naive dfs
         """
+        count = 0
         stack = [self.gameBoard]
         parents = {self.gameBoard: None}
 
         while len(parents) != 0:
             gb = stack.pop()
+            count += 1
             if gb.isWin():
                 path = []
                 boards = []
@@ -53,7 +57,7 @@ class Solver:
                     curGb = parents[curGb].parent
 
                 boards.insert(0, curGb)
-                return {'path': path, 'boards': boards}
+                return {'path': path, 'boards': boards, 'count': count}
 
             if gb.isGameOver():
                 continue

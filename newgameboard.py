@@ -341,5 +341,11 @@ def mapToBoard(path):
                 goals.add((yi, xi))
             elif char == 'r':
                 robot = (yi, xi)
+            elif char == 'B':
+                boxes.add((yi, xi))
+                goals.add((yi, xi))
+            elif char == 'R':
+                robot = (yi, xi)
+                goals.add((yi, xi))
 
     return GameBoard(obstacles, boxes, goals, robot)
