@@ -77,7 +77,11 @@ class GameBoard:
         hsh['playArea'] = self.playArea
         hsh['deadPoints'] = self.deadPoints
         hsh['traps'] = self.traps
-        return GameBoard(self.obstacles, newBoxes, self.goals, moveResult['newRobot'], hsh)
+        nextStepGameBoard = GameBoard(self.obstacles, newBoxes, self.goals, moveResult['newRobot'], hsh)
+        if nextStepGameBoard.isGameOver():
+            return None
+
+        return nextStepGameBoard
 
     def couldMove(self, direction):
         """
