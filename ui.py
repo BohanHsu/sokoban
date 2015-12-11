@@ -1,9 +1,11 @@
+import Tkinter as tk
 from Tkinter import *
 
 class Ui:
     def __init__(self, gameBoards):
         self.sizeUnit = 30.0
         self.idx = 0
+        gameBoards.append(gameBoards[-1])
         gameBoard = gameBoards[0]
         maxI = 0
         maxJ = 0
@@ -15,7 +17,7 @@ class Ui:
                 maxJ = obstacle[1]
 
         root = Tk()
-        canvas = Canvas(root, width=(maxJ + 3) * self.sizeUnit, height=(maxI + 3) * self.sizeUnit)
+        canvas = Canvas(root, width=(max([maxJ + 3, 12])) * self.sizeUnit, height=(maxI + 11) * self.sizeUnit)
         canvas.pack()
     
         def task():
@@ -36,6 +38,26 @@ class Ui:
         for i in range(0, len(matrix)):
             for j in range(0, len(matrix[0])):
                 self.drawBox(canvas, i, j, matrix[i][j])
+
+        self.drawLegend(canvas, len(matrix), len(matrix[0]))
+
+    def drawLegend(self, canvas, i, j):
+        canvas.create_text(self.sizeUnit * 2, (i + 2)  * self.sizeUnit, text='Legend:')
+
+        self.drawBox(canvas, (i + 2), 0, '.')
+        canvas.create_text(self.sizeUnit * 3, (i + 3.5)  * self.sizeUnit, text='Empty', anchor=tk.W)
+        self.drawBox(canvas, (i + 4), 0, '#')
+        canvas.create_text(self.sizeUnit * 3, (i + 5.5)  * self.sizeUnit, text='Block', anchor=tk.W)
+        self.drawBox(canvas, (i + 6), 0, 'B')
+        canvas.create_text(self.sizeUnit * 3, (i + 7.5)  * self.sizeUnit, text='Stone on Goal', anchor=tk.W)
+
+        self.drawBox(canvas, (i + 2), 6, 'b')
+        canvas.create_text(self.sizeUnit * 9, (i + 3.5)  * self.sizeUnit, text='Stone', anchor=tk.W)
+        self.drawBox(canvas, (i + 4), 6, 'g')
+        canvas.create_text(self.sizeUnit * 9, (i + 5.5)  * self.sizeUnit, text='Goal', anchor=tk.W)
+        self.drawBox(canvas, (i + 6), 6, 'r')
+        canvas.create_text(self.sizeUnit * 9, (i + 7.5)  * self.sizeUnit, text='Robot', anchor=tk.W)
+
 
     def drawBox(self, canvas, i, j, type):
         color = {'.': 'white', ' ': 'gray', '#': 'black', 'B': 'red', 'b': 'blue', 'g': 'green', 'r': 'yellow'}
