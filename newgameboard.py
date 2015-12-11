@@ -42,26 +42,6 @@ class GameBoard:
 
         return False
 
-    # This part is move to a file called heuristic.py
-
-    #def gameHeuristic(self):
-    #    #find the min-distance for all boxes to the nearest goals
-    #    boxes = set(self.boxes)
-    #    goals = list(self.goals)
-    #    total_distance = 0
-    #    while boxes:
-    #        cur_box = boxes.pop()
-    #        min_distance = 999999
-    #        cur_goal = []
-    #        for i in goals:
-    #            distance = abs(i[0]-cur_box[0]) + abs(i[1]-cur_box[1])
-    #            if distance<min_distance:
-    #                min_distance = distance
-    #                cur_goal = i
-    #        total_distance += min_distance
-    #        goals.remove(cur_goal)
-    #    return total_distance
-
     def moveRobot(self, direction):
         moveResult = self.couldMove(direction)
         if moveResult is None:
