@@ -28,9 +28,6 @@ class Solver:
                 boards.insert(0, curGb)
                 return {'path': path, 'boards': boards, 'count': count}
 
-            if gb.isGameOver():
-                continue
-
             for direction in ['n', 's', 'e', 'w']:
                 movedGB = gb.moveRobot(direction)
                 if not movedGB is None and not movedGB in parents:
@@ -59,9 +56,6 @@ class Solver:
 
                 boards.insert(0, curGb)
                 return {'path': path, 'boards': boards, 'count': count}
-
-            if gb.isGameOver():
-                continue
 
             for direction in ['n', 's', 'e', 'w']:
                 movedGB = gb.moveRobot(direction)
@@ -93,9 +87,6 @@ class Solver:
 
                 boards.insert(0, curGb)
                 return {'path': path, 'boards': boards, 'count': count}
-
-            if gb.isGameOver():
-                continue
 
             for direction in ['n', 's', 'e', 'w']:
                 movedGB = gb.moveRobot(direction)
