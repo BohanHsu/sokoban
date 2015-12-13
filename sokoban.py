@@ -23,7 +23,7 @@ def helper():
             "                                   selected, A* will be use as default",
             "python sokoban.py -p <path>        Required, set path of sokoban game",
             "                                   map.",
-            "python sokoban.py -d <heuristic>   Required if using A* algorithm, set name",
+            "python sokoban.py -h <heuristic>   Required if using A* algorithm, set name",
             "                                   of heuristic, heurictic name can be found",
             "                                   in './heuristic.py' file.",
             "python sokoban.py -map <path>      Show graph of the map.",
